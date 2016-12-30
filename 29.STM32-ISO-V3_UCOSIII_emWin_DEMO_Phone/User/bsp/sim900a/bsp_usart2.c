@@ -13,7 +13,7 @@
  *
  * ×÷Õß    £ºwildfire team 
  * ÂÛÌ³    £ºhttp://www.amobbs.com/forum-1008-1.html
- * ÌÔ±¦    £ºhttp://firestm32.taobao.com
+ * ÌÔ±¦    £ºhttps://fire-stm32.taobao.com
 **********************************************************************************/
 #include "bsp_usart2.h"
 #include <stdarg.h>
