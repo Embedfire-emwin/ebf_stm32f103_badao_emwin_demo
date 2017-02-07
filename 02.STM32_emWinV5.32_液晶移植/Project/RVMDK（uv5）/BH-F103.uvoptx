@@ -699,7 +699,7 @@
   </Group>
 
   <Group>
-    <GroupName>STemWin_V532</GroupName>
+    <GroupName>STemWin_V522</GroupName>
     <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -712,7 +712,7 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\STemWinLibrary532\Config\GUIConf.c</PathWithFileName>
+      <PathWithFileName>..\..\STemWinLibrary522\Config\GUIConf.c</PathWithFileName>
       <FilenameWithoutPath>GUIConf.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -725,7 +725,7 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\STemWinLibrary532\Config\LCDConf_FlexColor_Template.c</PathWithFileName>
+      <PathWithFileName>..\..\STemWinLibrary522\Config\LCDConf_FlexColor_Template.c</PathWithFileName>
       <FilenameWithoutPath>LCDConf_FlexColor_Template.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -738,7 +738,7 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\STemWinLibrary532\OS\GUI_X.c</PathWithFileName>
+      <PathWithFileName>..\..\STemWinLibrary522\OS\GUI_X.c</PathWithFileName>
       <FilenameWithoutPath>GUI_X.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -751,8 +751,8 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\STemWinLibrary532\Lib\STemWin532_CM3_Keil.lib</PathWithFileName>
-      <FilenameWithoutPath>STemWin532_CM3_Keil.lib</FilenameWithoutPath>
+      <PathWithFileName>..\..\STemWinLibrary522\Lib\STemWin522_CM3_Keil.lib</PathWithFileName>
+      <FilenameWithoutPath>STemWin522_CM3_Keil.lib</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

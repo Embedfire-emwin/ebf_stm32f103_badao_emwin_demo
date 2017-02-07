@@ -369,7 +369,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD, USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS;..\..\User;..\..\Libraries\FWlib\inc;..\..\STemWinLibrary532\inc;..\..\STemWinLibrary532\Config</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS;..\..\User;..\..\Libraries\FWlib\inc;..\..\STemWinLibrary522\inc;..\..\STemWinLibrary522\Config</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -610,27 +610,27 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>STemWin_V532</GroupName>
+          <GroupName>STemWin_V522</GroupName>
           <Files>
             <File>
               <FileName>GUIConf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\STemWinLibrary532\Config\GUIConf.c</FilePath>
+              <FilePath>..\..\STemWinLibrary522\Config\GUIConf.c</FilePath>
             </File>
             <File>
               <FileName>LCDConf_FlexColor_Template.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\STemWinLibrary532\Config\LCDConf_FlexColor_Template.c</FilePath>
+              <FilePath>..\..\STemWinLibrary522\Config\LCDConf_FlexColor_Template.c</FilePath>
             </File>
             <File>
               <FileName>GUI_X.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\STemWinLibrary532\OS\GUI_X.c</FilePath>
+              <FilePath>..\..\STemWinLibrary522\OS\GUI_X.c</FilePath>
             </File>
             <File>
-              <FileName>STemWin532_CM3_Keil.lib</FileName>
+              <FileName>STemWin522_CM3_Keil.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\STemWinLibrary532\Lib\STemWin532_CM3_Keil.lib</FilePath>
+              <FilePath>..\..\STemWinLibrary522\Lib\STemWin522_CM3_Keil.lib</FilePath>
             </File>
           </Files>
         </Group>

@@ -26,6 +26,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
 
+extern void TimingDelay_Decrement(void);
 
 extern __IO int32_t OS_TimeMS;
 
@@ -139,6 +140,7 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
+//	TimingDelay_Decrement();
   OS_TimeMS ++;
 
 }
