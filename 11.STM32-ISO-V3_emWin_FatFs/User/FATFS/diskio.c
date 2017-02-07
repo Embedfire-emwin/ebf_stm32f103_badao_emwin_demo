@@ -10,23 +10,33 @@
 #include "diskio.h"		/* FatFs lower layer API */
 #include "ff.h"
 
-
 #ifndef FATFS_FLASH_SPI
 	#define FATFS_FLASH_SPI				1
 #endif
 
+#ifndef FATFS_USE_SDIO
+	#define FATFS_USE_SDIO			1
+#endif
 
+/* Set in defines.h file if you want it */
 #ifndef TM_FATFS_CUSTOM_FATTIME
 	#define TM_FATFS_CUSTOM_FATTIME		0
 #endif
 
+
+/* Include SD card files if is enabled */
+#if FATFS_USE_SDIO == 1
+	#include "./fatfs/drivers/fatfs_sd_sdio.h"
+#endif
+
 #if FATFS_FLASH_SPI == 1
-	#include "..\User\spi_flash\fatfs_flash_spi.h"
+	#include "./fatfs/drivers/fatfs_flash_spi.h"
 #endif
 
 
 /* Definitions of physical drive number for each media */
-#define SPI_FLASH		0
+#define ATA			    0
+#define SPI_FLASH		1
 
 /*-----------------------------------------------------------------------*/
 /* Inidialize a Drive                                                    */
@@ -36,20 +46,23 @@ DSTATUS disk_initialize (
 	BYTE pdrv				/* Physical drive nmuber (0..) */
 )
 {
+
 	DSTATUS status = STA_NOINIT;
-	FLASH_DEBUG_FUNC() ;
-	switch (pdrv) {		
+	switch (pdrv) {
+		case ATA:	/* SD CARD */
+			#if FATFS_USE_SDIO == 1
+				status = TM_FATFS_SD_SDIO_disk_initialize();	/* SDIO communication */
+			#endif
+			break;
 		case SPI_FLASH:
 			#if	FATFS_FLASH_SPI ==1
-			FLASH_DEBUG("SPI FLASH init");
-			status = TM_FATFS_FLASH_SPI_disk_initialize();
+			status = TM_FATFS_FLASH_SPI_disk_initialize();	/* SDIO communication */
 			#endif
 			break;
 
 		default:
 			status = STA_NOINIT;
 	}
-	
 	return status;
 }
 
@@ -67,6 +80,11 @@ DSTATUS disk_status (
 	DSTATUS status = STA_NOINIT;
 	
 	switch (pdrv) {
+		case ATA:	/* SD CARD */
+			#if FATFS_USE_SDIO == 1
+				status = TM_FATFS_SD_SDIO_disk_status();	/* SDIO communication */
+			#endif
+			break;
 		case SPI_FLASH:
 			#if	FATFS_FLASH_SPI ==1
 			status = TM_FATFS_FLASH_SPI_disk_status();	/* SDIO communication */
@@ -76,7 +94,6 @@ DSTATUS disk_status (
 		default:
 			status = STA_NOINIT;
 	}
-	
 	return status;
 }
 
@@ -95,15 +112,19 @@ DRESULT disk_read (
 {
 	DRESULT status = RES_PARERR;
 	switch (pdrv) {
+		case ATA:	/* SD CARD */
+			#if FATFS_USE_SDIO == 1
+				status = TM_FATFS_SD_SDIO_disk_read(buff, sector, count);	/* SDIO communication */
+			#endif
+			break;
 		case SPI_FLASH:
-					#if	FATFS_FLASH_SPI ==1
-					status = TM_FATFS_FLASH_SPI_disk_read(buff, sector, count);	/* SDIO communication */
-					#endif
+			#if	FATFS_FLASH_SPI ==1
+			status = TM_FATFS_FLASH_SPI_disk_read(buff, sector, count);	/* SDIO communication */
+			#endif
 		break;
 		default:
 			status = RES_PARERR;
 	}
-	
 	return status;
 }
 
@@ -127,15 +148,20 @@ DRESULT disk_write (
 	}
 	
 	switch (pdrv) {
+		case ATA:	/* SD CARD */
+			#if FATFS_USE_SDIO == 1
+				status = TM_FATFS_SD_SDIO_disk_write((BYTE *)buff, sector, count);	/* SDIO communication */
+			#endif
+		break;
+
 		case SPI_FLASH:
-					#if	FATFS_FLASH_SPI ==1
-					status = TM_FATFS_FLASH_SPI_disk_write((BYTE *)buff, sector, count);	/* SDIO communication */
-					#endif
+			#if	FATFS_FLASH_SPI ==1
+			status = TM_FATFS_FLASH_SPI_disk_write((BYTE *)buff, sector, count);	/* SDIO communication */
+			#endif
 		break;
 		default:
 			status = RES_PARERR;
 	}
-	
 	return status;
 }
 #endif
@@ -154,10 +180,15 @@ DRESULT disk_ioctl (
 {
 	DRESULT status = RES_PARERR;
 	switch (pdrv) {
+		case ATA:	/* SD CARD */
+			#if FATFS_USE_SDIO == 1
+				status = TM_FATFS_SD_SDIO_disk_ioctl(cmd, buff);					/* SDIO communication */
+			#endif
+			break;
 		case SPI_FLASH:
-					#if	FATFS_FLASH_SPI ==1
-					status = TM_FATFS_FLASH_SPI_disk_ioctl(cmd, buff);	/* SDIO communication */
-					#endif
+			#if	FATFS_FLASH_SPI ==1
+			status = TM_FATFS_FLASH_SPI_disk_ioctl(cmd, buff);	/* SDIO communication */
+			#endif
 		break;
 		default:
 			status = RES_PARERR;
@@ -168,10 +199,12 @@ DRESULT disk_ioctl (
 
 __weak DWORD get_fattime(void) {
 	/* Returns current time packed into a DWORD variable */
-	return	  ((DWORD)(2015 - 1980) << 25)	/* Year 2013 */
+	return	  ((DWORD)(2013 - 1980) << 25)	/* Year 2013 */
 			| ((DWORD)7 << 21)				/* Month 7 */
-			| ((DWORD)15 << 16)				/* Mday 28 */
-			| ((DWORD)11 << 11)				/* Hour 0 */
-			| ((DWORD)59 << 5)				/* Min 0 */
-			| ((DWORD)59 >> 1);				/* Sec 0 */
+			| ((DWORD)28 << 16)				/* Mday 28 */
+			| ((DWORD)0 << 11)				/* Hour 0 */
+			| ((DWORD)0 << 5)				/* Min 0 */
+			| ((DWORD)0 >> 1);				/* Sec 0 */
 }
+
+
