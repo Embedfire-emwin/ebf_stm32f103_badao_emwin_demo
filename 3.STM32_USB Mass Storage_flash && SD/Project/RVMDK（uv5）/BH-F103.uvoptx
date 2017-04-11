@@ -99,11 +99,6 @@
           <Title>MCBSTM32E Evaluation Board Web Page (MCBSTM32E)</Title>
           <Path>http://www.keil.com/mcbstm32e/</Path>
         </Book>
-        <Book>
-          <Number>4</Number>
-          <Title>STM32 Nucleo board (NUCLEO-F103RB)</Title>
-          <Path>http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/LN1847/PF259875</Path>
-        </Book>
       </Books>
       <DebugOpt>
         <uSim>0</uSim>
@@ -139,13 +134,13 @@
         <tDlgPa></tDlgPa>
         <tIfile></tIfile>
         <pMon>BIN\CMSIS_AGDI.dll</pMon>
-      </DebugOpt>      <TargetDriverDllRegistry>
+      </DebugOpt>
+      <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
           <Key>CMSIS_AGDI</Key>
           <Name>-X"Fire CMSIS-DAP" -UHS-00005091 -O206 -S0 -C0 -P00 -N00("ARM CoreSight SW-DP") -D00(1BA01477) -L00(0) -FO15 -FD20000000 -FC1000 -FN1 -FF0STM32F10x_512.FLM -FS08000000 -FL080000 -FP0($$Device:STM32F103ZE$Flash\STM32F10x_512.FLM)</Name>
         </SetRegEntry>
-
         <SetRegEntry>
           <Number>0</Number>
           <Key>ARMDBGFLAGS</Key>
@@ -725,7 +720,7 @@
 
   <Group>
     <GroupName>Mass_Storage</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1005,14 +1000,6 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
-  </Group>
-
-  <Group>
-    <GroupName>::CMSIS</GroupName>
-    <tvExp>0</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>1</RteFlg>
   </Group>
 
 </ProjectOpt>

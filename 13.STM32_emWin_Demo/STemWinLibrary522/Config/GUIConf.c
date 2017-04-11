@@ -65,7 +65,7 @@ Purpose     : Display controller initialization
 //
 // Define the available number of bytes available for the GUI
 //
-#define GUI_NUMBYTES  1024*30			
+#define GUI_NUMBYTES  1024*1024			
 
 #define GUI_BLOCKSIZE 0x80
 /*********************************************************************
@@ -87,7 +87,7 @@ void GUI_X_Config(void)
   //
   // 32 bit aligned memory area
   //
- GUI_ALLOC_AssignMemory((U32 *)Bank1_SRAM3_ADDR, 1024*1024);		//modify by BingHuo
+ GUI_ALLOC_AssignMemory((U32 *)Bank1_SRAM3_ADDR, GUI_NUMBYTES);		//modify by BingHuo
 	
   GUI_ALLOC_SetAvBlockSize(GUI_BLOCKSIZE);						//modify by BingHuo	
   //

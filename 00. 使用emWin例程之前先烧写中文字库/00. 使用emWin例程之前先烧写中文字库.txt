@@ -1,0 +1,37 @@
+使用之前：
+为在emWin界面上显示中文，需要特殊格式的字库文件，我们把字库文件烧写在SPI Flash存储空间上，具体步骤如下：
+
+（1）把“03.刷FLASH程序”工程中的“文件”压缩包解压后的“srcdata”文件夹复制到SD卡的根目录(SD卡需要是FAT格式)，把SD卡接入到开发板，
+
+（2）把“03.刷FLASH程序”工程程序编译后下载到开发板。
+
+（3）使用USB线连接电脑与开发板，串口上位机设置为115200-N-8-1，复位开发板，上位机会有调试信息。
+
+（4）按一下 KEY1 按键，可开始刷写FLASH
+
+
+注意：
+(1) 音乐播放器默认读取SD卡里边音频文件，支持mp3，wav格式音频文件。所以，使用音乐播放器之前必须将音频文件拷
+	贝至SD卡中，否则读取不到文件。录音应用亦是相同情况。
+	
+(2) 图片显示的相关文件必须放在外部SPI Flash文件系统的Picture文件夹内，不然系统找寻不到。
+
+(3) 系统不具备文件删除功能，所以有需要删除文件的，可利用模拟U盘例程，这样可以直接在电脑端实现删除。当然拷贝
+	文件方法相同。
+	
+(4) 如果所有例程液晶的中文显示出现乱码情况请按“00. 使用emWin例程之前必须先烧写字库”步骤重新烧写字库。
+	
+  秉火F429至尊版              2015/11/12
+
+
+论坛    :http://www.firebbs.cn
+淘宝    :https://fire-stm32.taobao.com
+邮箱	:wildfireteam@163.com
+
+
+
+Wildfire STM32 ISO development board program. 
+
+forum    :http://www.firebbs.cn
+shop	 :https://fire-stm32.taobao.com
+email	 :wildfireteam@163.com
