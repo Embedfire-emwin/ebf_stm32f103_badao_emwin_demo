@@ -157,6 +157,10 @@ uint8_t sim900a_init(void)
 	{
 		return SIM900A_TRUE;
 	}
+	else if(strstr(redata,"SIMCOM_SIM800") != 0)
+	{
+		return SIM900A_TRUE;
+	}
 	else
 		return SIM900A_FALSE;
 
