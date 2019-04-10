@@ -10,13 +10,13 @@
 #define macLED1_GPIO_CLK 	    RCC_APB2Periph_GPIOB		/* GPIO端口时钟 */
 #define macLED1_GPIO_PIN		  GPIO_Pin_0			          /* LED引脚号 */
 
-#define macLED2_GPIO_PORT    	GPIOF			              /* GPIO端口 */
-#define macLED2_GPIO_CLK 	    RCC_APB2Periph_GPIOF		/* GPIO端口时钟 */
-#define macLED2_GPIO_PIN		  GPIO_Pin_7			         /* LED引脚号 */
+#define macLED2_GPIO_PORT    	GPIOB			              /* GPIO端口 */
+#define macLED2_GPIO_CLK 	    RCC_APB2Periph_GPIOB		/* GPIO端口时钟 */
+#define macLED2_GPIO_PIN		  GPIO_Pin_5			         /* LED引脚号 */
 
-#define macLED3_GPIO_PORT    	GPIOF			              /* GPIO端口 */
-#define macLED3_GPIO_CLK 	    RCC_APB2Periph_GPIOF		/* GPIO端口时钟 */
-#define macLED3_GPIO_PIN		  GPIO_Pin_8			          /* LED引脚号 */
+#define macLED3_GPIO_PORT    	GPIOB			              /* GPIO端口 */
+#define macLED3_GPIO_CLK 	    RCC_APB2Periph_GPIOB		/* GPIO端口时钟 */
+#define macLED3_GPIO_PIN		  GPIO_Pin_1			          /* LED引脚号 */
 
 
 /* 带参宏，可以像内联函数一样使用 */
