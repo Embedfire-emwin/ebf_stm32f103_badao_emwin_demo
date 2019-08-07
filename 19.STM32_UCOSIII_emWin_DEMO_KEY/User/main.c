@@ -182,7 +182,7 @@ static void AppTaskUpdate(void *p_arg)
 	{	
 		if((tpad_count<50)&&TPAD_Scan(0))
 		{
-			//LED1_TOGGLE;
+			LED1_TOGGLE;
 			macBEEP_ON();
 		}
 		OSTimeDlyHMSM(0, 0, 0, 100,

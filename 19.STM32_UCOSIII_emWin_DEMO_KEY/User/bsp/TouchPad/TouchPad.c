@@ -55,7 +55,7 @@ uint8_t TPAD_Init(void)
 	temp=0;
 	for(i=2;i<8;i++)temp+=buf[i];//取中间的8个数据进行平均
 	tpad_default_val=temp/6;
-	//printf("tpad_default_val:%d\r\n",tpad_default_val);	
+	printf("tpad_default_val:%d\r\n",tpad_default_val);	
 	if(tpad_default_val>TPAD_ARR_MAX_VAL/2)return 1;//初始化遇到超过TPAD_ARR_MAX_VAL/2的数值,不正常!
 	return 0;		     	    					   
 }
@@ -120,7 +120,7 @@ uint16_t TPAD_Get_MaxVal(uint8_t n)
 //扫描触摸按键
 //mode:0,不支持连续触发(按下一次必须松开才能按下一次);1,支持连续触发(可以一直按下)
 //返回值:0,没有按下;1,有按下;										  
-#define TPAD_GATE_VAL 	80	//触摸的门限值,也就是必须大于tpad_default_val+TPAD_GATE_VAL,才认为是有效触摸.
+#define TPAD_GATE_VAL 	30	//触摸的门限值,也就是必须大于tpad_default_val+TPAD_GATE_VAL,才认为是有效触摸.
 uint8_t TPAD_Scan(uint8_t mode)
 {
 	static uint8_t keyen=0;	//0,可以开始检测;>0,还不能开始检测	 
@@ -133,7 +133,7 @@ uint8_t TPAD_Scan(uint8_t mode)
 		keyen=0;	//支持连按	  
 	}
 	rval=TPAD_Get_MaxVal(sample); 
-//	printf("scan_rval=%d\n",rval);
+	printf("scan_rval=%d\n",rval);
 	if(rval>(tpad_default_val+TPAD_GATE_VAL))//大于tpad_default_val+TPAD_GATE_VAL,有效
 	{						
   		rval=TPAD_Get_MaxVal(sample);		 
