@@ -120,7 +120,7 @@ uint16_t TPAD_Get_MaxVal(uint8_t n)
 //扫描触摸按键
 //mode:0,不支持连续触发(按下一次必须松开才能按下一次);1,支持连续触发(可以一直按下)
 //返回值:0,没有按下;1,有按下;										  
-#define TPAD_GATE_VAL 	80	//触摸的门限值,也就是必须大于tpad_default_val+TPAD_GATE_VAL,才认为是有效触摸.
+#define TPAD_GATE_VAL 	30	//触摸的门限值,也就是必须大于tpad_default_val+TPAD_GATE_VAL,才认为是有效触摸.
 uint8_t TPAD_Scan(uint8_t mode)
 {
 	static uint8_t keyen=0;	//0,可以开始检测;>0,还不能开始检测	 
