@@ -412,12 +412,12 @@ void BSP_Init(void)
 	
 	result=f_mount(&fs[0],"0:",1);	
 	//printf("mount_res:%d\n",result);
-	if(result!=FR_OK)
-	{
-			hardwareflag|=0x02;
-			IsCal=0xE0;
-			return;
-	}
+	//if(result!=FR_OK)
+	//{
+	//		hardwareflag|=0x02;
+	//		IsCal=0xE0;
+	//		return;
+	//}
 	/*************** 读取触摸屏校准参数  **************************/
 	SPI_FLASH_BufferRead(&IsCal,CALADD, 1);
 	//printf("cal:%X\n",IsCal);
