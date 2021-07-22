@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>emWin</TargetName>
+      <TargetName>fatfs</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060960::V5.06 update 7 (build 960)::ARMCC</pCCUsed>
@@ -137,7 +137,7 @@
             <DriverSelection>4099</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
-          <Flash2>BIN\CMSIS_AGDI.dll</Flash2>
+          <Flash2>Segger\JL2CM3.dll</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
@@ -325,13 +325,13 @@
             <wLevel>0</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>0</v6Lang>
             <v6LangP>0</v6LangP>
-            <vShortEn>1</vShortEn>
-            <vShortWch>1</vShortWch>
+            <vShortEn>0</vShortEn>
+            <vShortWch>0</vShortWch>
             <v6Lto>0</v6Lto>
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD, USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS;..\..\User;..\..\Libraries\FWlib\inc;..\..\uCOS-III\uC-CPU;..\..\uCOS-III\uC-CPU\ARM-Cortex-M3\RealView;..\..\uCOS-III\uC-LIB;..\..\uCOS-III\uC-LIB\Ports\ARM-Cortex-M3\RealView;..\..\uCOS-III\uCOS-III\Source;..\..\uCOS-III\uCOS-III\Ports\ARM-Cortex-M3\Generic\RealView;..\..\User\app;..\..\STemWinLibrary522\Config;..\..\STemWinLibrary522\inc;..\..\ff10;..\..\ff10\option;..\..\User\os</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS;..\..\User;..\..\Libraries\FWlib\inc;..\..\User\FATFS;..\..\User\FATFS\option</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -352,7 +352,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <ClangAsOpt>1</ClangAsOpt>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -370,7 +370,7 @@
             <TextAddressRange>0x08000000</TextAddressRange>
             <DataAddressRange>0x20000000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile>..\..\..\..\..\..\stm32-ram.sct</ScatterFile>
+            <ScatterFile></ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc></Misc>
@@ -549,19 +549,59 @@
               <FilePath>..\..\User\main.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f10x_conf.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\User\stm32f10x_conf.h</FilePath>
-            </File>
-            <File>
               <FileName>stm32f10x_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\stm32f10x_it.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f10x_it.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\User\stm32f10x_it.h</FilePath>
+              <FileName>aux_data.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\aux_data.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\key\bsp_key.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\led\bsp_led.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\usart\bsp_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_spi_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\flash\bsp_spi_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_sdio_sdcard.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\sdio\bsp_sdio_sdcard.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>FatFs</GroupName>
+          <Files>
+            <File>
+              <FileName>diskio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\FATFS\diskio.c</FilePath>
+            </File>
+            <File>
+              <FileName>ff.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\FATFS\ff.c</FilePath>
+            </File>
+            <File>
+              <FileName>cc936.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\FATFS\option\cc936.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -569,399 +609,9 @@
           <GroupName>DOC</GroupName>
           <Files>
             <File>
-              <FileName>readme.txt</FileName>
+              <FileName>必读说明.txt</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\Doc\readme.txt</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>uC/CPU</GroupName>
-          <Files>
-            <File>
-              <FileName>cpu.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\uCOS-III\uC-CPU\ARM-Cortex-M3\RealView\cpu.h</FilePath>
-            </File>
-            <File>
-              <FileName>cpu_a.asm</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\uCOS-III\uC-CPU\ARM-Cortex-M3\RealView\cpu_a.asm</FilePath>
-            </File>
-            <File>
-              <FileName>cpu_c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uC-CPU\ARM-Cortex-M3\RealView\cpu_c.c</FilePath>
-            </File>
-            <File>
-              <FileName>cpu_core.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uC-CPU\cpu_core.c</FilePath>
-            </File>
-            <File>
-              <FileName>cpu_core.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\uCOS-III\uC-CPU\cpu_core.h</FilePath>
-            </File>
-            <File>
-              <FileName>cpu_def.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\uCOS-III\uC-CPU\cpu_def.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>uC/LIB</GroupName>
-          <Files>
-            <File>
-              <FileName>lib_mem_a.asm</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\uCOS-III\uC-LIB\Ports\ARM-Cortex-M3\RealView\lib_mem_a.asm</FilePath>
-            </File>
-            <File>
-              <FileName>lib_ascii.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uC-LIB\lib_ascii.c</FilePath>
-            </File>
-            <File>
-              <FileName>lib_ascii.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\uCOS-III\uC-LIB\lib_ascii.h</FilePath>
-            </File>
-            <File>
-              <FileName>lib_def.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\uCOS-III\uC-LIB\lib_def.h</FilePath>
-            </File>
-            <File>
-              <FileName>lib_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uC-LIB\lib_math.c</FilePath>
-            </File>
-            <File>
-              <FileName>lib_math.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\uCOS-III\uC-LIB\lib_math.h</FilePath>
-            </File>
-            <File>
-              <FileName>lib_mem.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uC-LIB\lib_mem.c</FilePath>
-            </File>
-            <File>
-              <FileName>lib_mem.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\uCOS-III\uC-LIB\lib_mem.h</FilePath>
-            </File>
-            <File>
-              <FileName>lib_str.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uC-LIB\lib_str.c</FilePath>
-            </File>
-            <File>
-              <FileName>lib_str.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\uCOS-III\uC-LIB\lib_str.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>uC/Source</GroupName>
-          <Files>
-            <File>
-              <FileName>os.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os.h</FilePath>
-            </File>
-            <File>
-              <FileName>os_cfg_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_cfg_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_core.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_core.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_dbg.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_dbg.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_flag.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_flag.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_int.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_int.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_mem.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_mem.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_msg.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_msg.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_mutex.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_mutex.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_pend_multi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_pend_multi.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_prio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_prio.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_q.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_q.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_sem.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_sem.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_stat.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_stat.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_task.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_tick.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_tick.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_time.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_time.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_tmr.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_tmr.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_type.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_type.h</FilePath>
-            </File>
-            <File>
-              <FileName>os_var.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Source\os_var.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>uC/Port</GroupName>
-          <Files>
-            <File>
-              <FileName>os_cpu.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Ports\ARM-Cortex-M3\Generic\RealView\os_cpu.h</FilePath>
-            </File>
-            <File>
-              <FileName>os_cpu_a.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Ports\ARM-Cortex-M3\Generic\RealView\os_cpu_a.s</FilePath>
-            </File>
-            <File>
-              <FileName>os_cpu_c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\uCOS-III\uCOS-III\Ports\ARM-Cortex-M3\Generic\RealView\os_cpu_c.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>BSP</GroupName>
-          <Files>
-            <File>
-              <FileName>bsp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\bsp\bsp.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\bsp\led\bsp_led.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_usart1.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\bsp\usart\bsp_usart1.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_ili9341_lcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\bsp\lcd\bsp_ili9341_lcd.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_xpt2046_lcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\bsp\lcd\bsp_xpt2046_lcd.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_fsmc_sram.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\bsp\ExSRAM\bsp_fsmc_sram.c</FilePath>
-            </File>
-            <File>
-              <FileName>fatfs_flash_spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\bsp\spi_flash\fatfs_flash_spi.c</FilePath>
-            </File>
-            <File>
-              <FileName>key.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\bsp\Key\key.c</FilePath>
-            </File>
-            <File>
-              <FileName>beep.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\bsp\Beep\beep.c</FilePath>
-            </File>
-            <File>
-              <FileName>TouchPad.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\bsp\TouchPad\TouchPad.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>os_cfg</GroupName>
-          <Files>
-            <File>
-              <FileName>app_cfg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\User\os\app_cfg.h</FilePath>
-            </File>
-            <File>
-              <FileName>cpu_cfg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\User\os\cpu_cfg.h</FilePath>
-            </File>
-            <File>
-              <FileName>lib_cfg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\User\os\lib_cfg.h</FilePath>
-            </File>
-            <File>
-              <FileName>os_app_hooks.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\os\os_app_hooks.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_app_hooks.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\User\os\os_app_hooks.h</FilePath>
-            </File>
-            <File>
-              <FileName>os_cfg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\User\os\os_cfg.h</FilePath>
-            </File>
-            <File>
-              <FileName>os_cfg_app.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\User\os\os_cfg_app.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>app</GroupName>
-          <Files>
-            <File>
-              <FileName>includes.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\User\includes.h</FilePath>
-            </File>
-            <File>
-              <FileName>app.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\User\app\app.h</FilePath>
-            </File>
-            <File>
-              <FileName>app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\app\app.c</FilePath>
-            </File>
-            <File>
-              <FileName>appicon.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\app\appicon.c</FilePath>
-            </File>
-            <File>
-              <FileName>Touch_CalibrationApp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\app\Touch_CalibrationApp.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>STemWin_V522</GroupName>
-          <Files>
-            <File>
-              <FileName>GUIConf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\STemWinLibrary522\Config\GUIConf.c</FilePath>
-            </File>
-            <File>
-              <FileName>LCDConf_FlexColor_Template.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\STemWinLibrary522\Config\LCDConf_FlexColor_Template.c</FilePath>
-            </File>
-            <File>
-              <FileName>STemWin522_CM3_OS_Keil.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\STemWinLibrary522\Lib\STemWin522_CM3_OS_Keil.lib</FilePath>
-            </File>
-            <File>
-              <FileName>GUI_X_uCOS.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\STemWinLibrary522\OS\GUI_X_uCOS.c</FilePath>
-            </File>
-            <File>
-              <FileName>GUI_X_Touch_Analog.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\STemWinLibrary522\OS\GUI_X_Touch_Analog.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>ff10</GroupName>
-          <Files>
-            <File>
-              <FileName>diskio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\ff10\diskio.c</FilePath>
-            </File>
-            <File>
-              <FileName>ff.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\ff10\ff.c</FilePath>
-            </File>
-            <File>
-              <FileName>firecc936.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\ff10\firecc936.c</FilePath>
+              <FilePath>..\..\必读说明.txt</FilePath>
             </File>
           </Files>
         </Group>
