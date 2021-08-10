@@ -180,7 +180,19 @@ void LCD_X_Config(void) {
   //
   // Set display driver and color conversion
   //
-  pDevice = GUI_DEVICE_CreateAndLink(GUIDRV_FLEXCOLOR, GUICC_565, 0, 0);
+//  printf("LCD ID:  %04X  %04X \r\n", ILI9341_ReadID(), lcdid); //Debug
+  if(lcdid == LCDID_ILI9341)
+  {
+    pDevice = GUI_DEVICE_CreateAndLink(GUIDRV_FLEXCOLOR, GUICC_565, 0, 0);
+  }
+  else if(lcdid == LCDID_ST7789V)
+  {
+    pDevice = GUI_DEVICE_CreateAndLink(GUIDRV_FLEXCOLOR, GUICC_M565, 0, 0);
+  }
+  else  //默认设置
+  {
+    pDevice = GUI_DEVICE_CreateAndLink(GUIDRV_FLEXCOLOR, GUICC_565, 0, 0);
+  }
   //
   // Display driver configuration, required for Lin-driver
   //
@@ -190,9 +202,15 @@ void LCD_X_Config(void) {
   // Orientation
   //
   Config.FirstCOM = 0;                                          //modify by fire
-  Config.FirstSEG = 0;                                          //modify by fire  
-	Config.Orientation = GUI_MIRROR_Y|GUI_MIRROR_X;								//modify by fire 竖屏
+  Config.FirstSEG = 0;                                          //modify by fire
+  if(lcdid == LCDID_ILI9341)
+  {
+    Config.Orientation = GUI_MIRROR_Y|GUI_MIRROR_X;								//modify by fire 竖屏
 // Config.Orientation = GUI_SWAP_XY | GUI_MIRROR_Y;					    //modify by fire  横屏		
+  }
+  else if(lcdid == LCDID_ST7789V)
+  {
+  }
   Config.NumDummyReads = 2;                                     //modify by fire 读取的第二个数据才是真实数据
 
   GUIDRV_FlexColor_Config(pDevice, &Config);
@@ -203,12 +221,19 @@ void LCD_X_Config(void) {
   PortAPI.pfWrite16_A1  = LcdWriteData;
   PortAPI.pfWriteM16_A1 = LcdWriteDataMultiple;
   PortAPI.pfReadM16_A1  = LcdReadDataMultiple;
-  GUIDRV_FlexColor_SetFunc(pDevice, &PortAPI, GUIDRV_FLEXCOLOR_F66709, GUIDRV_FLEXCOLOR_M16C0B16);		//modify by fire ԭGUIDRV_FLEXCOLOR_F66708
+  GUIDRV_FlexColor_SetFunc(pDevice, &PortAPI, GUIDRV_FLEXCOLOR_F66709, GUIDRV_FLEXCOLOR_M16C0B16);		//modify by fire GUIDRV_FLEXCOLOR_F66708
 	
 	/*设置触摸原点 */
-	GUI_TOUCH_SetOrientation((GUI_MIRROR_X * LCD_GetMirrorXEx(0)) |
-              (GUI_MIRROR_Y * LCD_GetMirrorYEx(0)) |
-              (GUI_SWAP_XY  * LCD_GetSwapXYEx (0)));
+	if(lcdid == LCDID_ILI9341)
+  {
+    GUI_TOUCH_SetOrientation((GUI_MIRROR_X * LCD_GetMirrorXEx(0)) |
+                (GUI_MIRROR_Y * LCD_GetMirrorYEx(0)) |
+                (GUI_SWAP_XY  * LCD_GetSwapXYEx (0)));
+  }
+  else if(lcdid == LCDID_ST7789V)
+  {
+    GUI_TOUCH_SetOrientation(GUI_MIRROR_X | GUI_MIRROR_Y);
+  }
 
 	/*设置触摸校准 */	
 	GUI_TOUCH_Calibrate(GUI_COORD_X, 0, 240-1, TOUCH_AD_RIGHT ,TOUCH_AD_LEFT );

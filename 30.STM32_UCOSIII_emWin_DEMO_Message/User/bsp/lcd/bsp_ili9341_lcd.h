@@ -66,6 +66,12 @@ RAM基地址 = 0X6D00 0000 = 0X6C00 0000+2^23*2 = 0X6C00 0000 + 0X100 0000 = 0X6D00
 #define      macCMD_SetPixel		 		          0x2C	     //填充像素
 
 
+/* 定义 LCD 驱动芯片 ID */
+#define     LCDID_UNKNOWN             0
+#define     LCDID_ILI9341             0x9341
+#define     LCDID_ST7789V             0x8552
+
+
 /********************************** 声明 ILI934 函数 ***************************************/
 //开液晶屏背光，必须在用户任务程序中被调用一次，否则黑屏
 #define			LCD_BK_EN		  GPIO_ResetBits(macILI9341_BK_PORT, macILI9341_BK_PIN)	
@@ -74,4 +80,8 @@ RAM基地址 = 0X6D00 0000 = 0X6C00 0000+2^23*2 = 0X6C00 0000 + 0X100 0000 = 0X6D00
 
 void ILI9341_Init ( void );
 void ILI9341_GramScan ( uint8_t ucOption );
+uint16_t ILI9341_ReadID(void);
+
+extern uint16_t lcdid;
+
 #endif /* __BSP_ILI9341_ILI9341_H */

@@ -174,7 +174,19 @@ void LCD_X_Config(void) {
   //
   // Set display driver and color conversion
   //
-  pDevice = GUI_DEVICE_CreateAndLink(GUIDRV_FLEXCOLOR, GUICC_565, 0, 0);
+//  printf("LCD ID:  %04X  %04X \r\n", ILI9341_ReadID(), lcdid); //Debug
+  if(lcdid == LCDID_ILI9341)
+  {
+    pDevice = GUI_DEVICE_CreateAndLink(GUIDRV_FLEXCOLOR, GUICC_565, 0, 0);
+  }
+  else if(lcdid == LCDID_ST7789V)
+  {
+    pDevice = GUI_DEVICE_CreateAndLink(GUIDRV_FLEXCOLOR, GUICC_M565, 0, 0);
+  }
+  else  //默认设置
+  {
+    pDevice = GUI_DEVICE_CreateAndLink(GUIDRV_FLEXCOLOR, GUICC_565, 0, 0);
+  }
   //
   // Display driver configuration, required for Lin-driver
   //
@@ -184,8 +196,15 @@ void LCD_X_Config(void) {
   // Orientation
   Config.FirstCOM = 0;                                          //modify by fire
   Config.FirstSEG = 0;                                          //modify by fire  
-	Config.Orientation = GUI_MIRROR_Y|GUI_MIRROR_X;						//modify by fire 竖屏
-	// Config.Orientation = GUI_SWAP_XY | GUI_MIRROR_Y;					    //modify by fire  横屏		
+  if(lcdid == LCDID_ILI9341)
+  {
+    Config.Orientation = GUI_MIRROR_Y|GUI_MIRROR_X;								//modify by fire 竖屏
+// Config.Orientation = GUI_SWAP_XY | GUI_MIRROR_Y;					    //modify by fire  横屏		
+  }
+  else if(lcdid == LCDID_ST7789V)
+  {
+    Config.Orientation = GUI_MIRROR_Y|GUI_MIRROR_X;								//modify by fire 竖屏
+  }
   Config.NumDummyReads = 2;                                     //modify by fire 读取的第二个数据才是真实数据
 
   GUIDRV_FlexColor_Config(pDevice, &Config);

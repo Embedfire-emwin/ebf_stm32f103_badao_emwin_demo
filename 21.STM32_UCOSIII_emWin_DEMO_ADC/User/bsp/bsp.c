@@ -398,6 +398,7 @@ void BSP_Init(void)
 	WM_SetCreateFlags(WM_CF_MEMDEV);
 	
 	/* 初始化GUI */
+  ILI9341_Init(); /* 提前初始化LCD驱动，在GUI_Init调用LCD_X_Config之前确认LCD驱动芯片ID: lcdid */
 	GUI_Init();
 	
 	/* Register work area for each volume (Always succeeds regardless of disk status) */

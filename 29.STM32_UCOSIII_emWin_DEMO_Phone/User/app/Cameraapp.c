@@ -13,9 +13,9 @@
 * ..\..\User\app\LEDapp.c(275): error:  #8: missing closing quote                     *
 *        GUI_DispStringHCenterAt("娴?姘?鐏?",110,120);                                *
 * ..\..\User\app\LEDapp.c(276): error:  #165: too few arguments in function call      *
-*        GUI_DispStringHCenterAt("瑙?鎽?鍋?宸?澶?鎵?闇€瑕?瑙?鎽?鏍?鍑?",110,215);     *
+*        GUI_DispStringHCenterAt("瑙?鎽?鍋?宸?澶?鎵?闇EUR瑕?瑙?鎽?鏍?鍑?",110,215);     *
 * ..\..\User\app\LEDapp.c(276): error:  #18: expected a ")"                           *
-*        GUI_DispStringHCenterAt("瑙?鎽?鍋?宸?澶?鎵?闇€瑕?瑙?鎽?鏍?鍑?",110,215);     *
+*        GUI_DispStringHCenterAt("瑙?鎽?鍋?宸?澶?鎵?闇EUR瑕?瑙?鎽?鏍?鍑?",110,215);     *
 *                                                                                     *
 * 修改文件后编译就出错这是Keil5软件问题(Keil4没这问题)，推荐使用其他程序编辑工具，    *
 * 只用Keil5完成编译和下载工作。                                                       *
@@ -102,7 +102,10 @@ void cbCameraWin(WM_MESSAGE * pMsg)
 				discameraexit();
 				Flag_ICON111=0;
 				UserApp_Flag = 0;		
-				ILI9341_GramScan(1);
+				if(lcdid == LCDID_ILI9341)  //使用 ILI9341 时需要
+				 {
+					ILI9341_GramScan(1);
+				}
 				key_flag=1;
 			break;
 		case WM_PAINT:

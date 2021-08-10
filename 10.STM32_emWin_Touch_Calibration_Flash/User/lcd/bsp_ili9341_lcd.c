@@ -16,6 +16,9 @@
   */ 
 #include "..\User\lcd\bsp_ili9341_lcd.h"
 
+//保存液晶屏驱动ic的 ID
+uint16_t lcdid = LCDID_UNKNOWN;
+
 /**
   * @brief  向ILI9341写入命令
   * @param  usCmd :要写入的命令（表寄存器地址）
@@ -35,6 +38,17 @@ static __inline void ILI9341_Write_Cmd ( uint16_t usCmd )
 static __inline void ILI9341_Write_Data ( uint16_t usData )
 {
 	* ( __IO uint16_t * ) ( macFSMC_Addr_ILI9341_DATA ) = usData;
+	
+}
+
+/**
+  * @brief  从ILI9341读取数据
+  * @param  无
+  * @retval 读取到的数据
+  */	
+static __inline uint16_t ILI9341_Read_Data ( void )
+{
+	return ( * ( __IO uint16_t * ) ( macFSMC_Addr_ILI9341_DATA ) );
 	
 }
 
@@ -128,8 +142,8 @@ static void ILI9341_GPIO_Config ( void )
   */
 static void ILI9341_FSMC_Config ( void )
 {
-	FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure;
-	FSMC_NORSRAMTimingInitTypeDef  p; 
+	FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure={0};
+	FSMC_NORSRAMTimingInitTypeDef  p={0}; 
 	
 	
 	/* 使能FSMC时钟*/
@@ -177,157 +191,345 @@ static void ILI9341_FSMC_Config ( void )
  */
 static void ILI9341_REG_Config ( void )
 {
-	/*  Power control B (CFh)  */
-	macDEBUG_DELAY  ();
-	ILI9341_Write_Cmd ( 0xCF  );
-	ILI9341_Write_Data ( 0x00  );
-	ILI9341_Write_Data ( 0x81  );
-	ILI9341_Write_Data ( 0x30  );
+  lcdid = ILI9341_ReadID();
+  
+  if(lcdid == LCDID_ILI9341)
+  {
+    /*  Power control B (CFh)  */
+    macDEBUG_DELAY  ();
+    ILI9341_Write_Cmd ( 0xCF  );
+    ILI9341_Write_Data ( 0x00  );
+    ILI9341_Write_Data ( 0x81  );
+    ILI9341_Write_Data ( 0x30  );
+    
+    /*  Power on sequence control (EDh) */
+    macDEBUG_DELAY ();
+    ILI9341_Write_Cmd ( 0xED );
+    ILI9341_Write_Data ( 0x64 );
+    ILI9341_Write_Data ( 0x03 );
+    ILI9341_Write_Data ( 0x12 );
+    ILI9341_Write_Data ( 0x81 );
+    
+    /*  Driver timing control A (E8h) */
+    macDEBUG_DELAY ();
+    ILI9341_Write_Cmd ( 0xE8 );
+    ILI9341_Write_Data ( 0x85 );
+    ILI9341_Write_Data ( 0x10 );
+    ILI9341_Write_Data ( 0x78 );
+    
+    /*  Power control A (CBh) */
+    macDEBUG_DELAY ();
+    ILI9341_Write_Cmd ( 0xCB );
+    ILI9341_Write_Data ( 0x39 );
+    ILI9341_Write_Data ( 0x2C );
+    ILI9341_Write_Data ( 0x00 );
+    ILI9341_Write_Data ( 0x34 );
+    ILI9341_Write_Data ( 0x02 );
+    
+    /* Pump ratio control (F7h) */
+    macDEBUG_DELAY ();
+    ILI9341_Write_Cmd ( 0xF7 );
+    ILI9341_Write_Data ( 0x20 );
+    
+    /* Driver timing control B */
+    macDEBUG_DELAY ();
+    ILI9341_Write_Cmd ( 0xEA );
+    ILI9341_Write_Data ( 0x00 );
+    ILI9341_Write_Data ( 0x00 );
+    
+    /* Frame Rate Control (In Normal Mode/Full Colors) (B1h) */
+    macDEBUG_DELAY ();
+    ILI9341_Write_Cmd ( 0xB1 );
+    ILI9341_Write_Data ( 0x00 );
+    ILI9341_Write_Data ( 0x1B );
+    
+    /*  Display Function Control (B6h) */
+    macDEBUG_DELAY ();
+    ILI9341_Write_Cmd ( 0xB6 );
+    ILI9341_Write_Data ( 0x0A );
+    ILI9341_Write_Data ( 0xA2 );
+    
+    /* Power Control 1 (C0h) */
+    macDEBUG_DELAY ();
+    ILI9341_Write_Cmd ( 0xC0 );
+    ILI9341_Write_Data ( 0x35 );
+    
+    /* Power Control 2 (C1h) */
+    macDEBUG_DELAY ();
+    ILI9341_Write_Cmd ( 0xC1 );
+    ILI9341_Write_Data ( 0x11 );
+    
+    /* VCOM Control 1 (C5h) */
+    ILI9341_Write_Cmd ( 0xC5 );
+    ILI9341_Write_Data ( 0x45 );
+    ILI9341_Write_Data ( 0x45 );
+    
+    /*  VCOM Control 2 (C7h)  */
+    ILI9341_Write_Cmd ( 0xC7 );
+    ILI9341_Write_Data ( 0xA2 );
+    
+    /* Enable 3G (F2h) */
+    ILI9341_Write_Cmd ( 0xF2 );
+    ILI9341_Write_Data ( 0x00 );
+    
+    /* Gamma Set (26h) */
+    ILI9341_Write_Cmd ( 0x26 );
+    ILI9341_Write_Data ( 0x01 );
+    macDEBUG_DELAY ();
+    
+    /* Positive Gamma Correction */
+    ILI9341_Write_Cmd ( 0xE0 ); //Set Gamma
+    ILI9341_Write_Data ( 0x0F );
+    ILI9341_Write_Data ( 0x26 );
+    ILI9341_Write_Data ( 0x24 );
+    ILI9341_Write_Data ( 0x0B );
+    ILI9341_Write_Data ( 0x0E );
+    ILI9341_Write_Data ( 0x09 );
+    ILI9341_Write_Data ( 0x54 );
+    ILI9341_Write_Data ( 0xA8 );
+    ILI9341_Write_Data ( 0x46 );
+    ILI9341_Write_Data ( 0x0C );
+    ILI9341_Write_Data ( 0x17 );
+    ILI9341_Write_Data ( 0x09 );
+    ILI9341_Write_Data ( 0x0F );
+    ILI9341_Write_Data ( 0x07 );
+    ILI9341_Write_Data ( 0x00 );
+    
+    /* Negative Gamma Correction (E1h) */
+    ILI9341_Write_Cmd ( 0XE1 ); //Set Gamma
+    ILI9341_Write_Data ( 0x00 );
+    ILI9341_Write_Data ( 0x19 );
+    ILI9341_Write_Data ( 0x1B );
+    ILI9341_Write_Data ( 0x04 );
+    ILI9341_Write_Data ( 0x10 );
+    ILI9341_Write_Data ( 0x07 );
+    ILI9341_Write_Data ( 0x2A );
+    ILI9341_Write_Data ( 0x47 );
+    ILI9341_Write_Data ( 0x39 );
+    ILI9341_Write_Data ( 0x03 );
+    ILI9341_Write_Data ( 0x06 );
+    ILI9341_Write_Data ( 0x06 );
+    ILI9341_Write_Data ( 0x30 );
+    ILI9341_Write_Data ( 0x38 );
+    ILI9341_Write_Data ( 0x0F );
+    
+    /* memory access control set */
+    macDEBUG_DELAY ();
+    ILI9341_Write_Cmd ( 0x36 ); 	
+    ILI9341_Write_Data ( 0xC8 );    /*竖屏  左上角到 (起点)到右下角 (终点)扫描方式*/
+    macDEBUG_DELAY ();
+    
+    /* column address control set */
+    ILI9341_Write_Cmd ( macCMD_SetCoordinateX ); 
+    ILI9341_Write_Data ( 0x00 );
+    ILI9341_Write_Data ( 0x00 );
+    ILI9341_Write_Data ( 0x00 );
+    ILI9341_Write_Data ( 0xEF );
+    
+    /* page address control set */
+    macDEBUG_DELAY ();
+    ILI9341_Write_Cmd ( macCMD_SetCoordinateY ); 
+    ILI9341_Write_Data ( 0x00 );
+    ILI9341_Write_Data ( 0x00 );
+    ILI9341_Write_Data ( 0x01 );
+    ILI9341_Write_Data ( 0x3F );
+    
+    /*  Pixel Format Set (3Ah)  */
+    macDEBUG_DELAY ();
+    ILI9341_Write_Cmd ( 0x3a ); 
+    ILI9341_Write_Data ( 0x55 );
+    
+    /* Sleep Out (11h)  */
+    ILI9341_Write_Cmd ( 0x11 );	
+    ILI9341_Delay ( 0xAFFf<<2 );
+    macDEBUG_DELAY ();
+    
+    /* Display ON (29h) */
+    ILI9341_Write_Cmd ( 0x29 ); 
+  }
+  else if(lcdid == LCDID_ST7789V)
+  {
+    /*  Power control B (CFh)  */
+    ILI9341_Write_Cmd ( 0xCF  );
+    ILI9341_Write_Data ( 0x00  );
+    ILI9341_Write_Data ( 0xC1  );
+    ILI9341_Write_Data ( 0x30  );
+    
+    /*  Power on sequence control (EDh) */
+    ILI9341_Write_Cmd ( 0xED );
+    ILI9341_Write_Data ( 0x64 );
+    ILI9341_Write_Data ( 0x03 );
+    ILI9341_Write_Data ( 0x12 );
+    ILI9341_Write_Data ( 0x81 );
+    
+    /*  Driver timing control A (E8h) */
+    ILI9341_Write_Cmd ( 0xE8 );
+    ILI9341_Write_Data ( 0x85 );
+    ILI9341_Write_Data ( 0x10 );
+    ILI9341_Write_Data ( 0x78 );
+    
+    /*  Power control A (CBh) */
+    ILI9341_Write_Cmd ( 0xCB );
+    ILI9341_Write_Data ( 0x39 );
+    ILI9341_Write_Data ( 0x2C );
+    ILI9341_Write_Data ( 0x00 );
+    ILI9341_Write_Data ( 0x34 );
+    ILI9341_Write_Data ( 0x02 );
+    
+    /* Pump ratio control (F7h) */
+    ILI9341_Write_Cmd ( 0xF7 );
+    ILI9341_Write_Data ( 0x20 );
+    
+    /* Driver timing control B */
+    ILI9341_Write_Cmd ( 0xEA );
+    ILI9341_Write_Data ( 0x00 );
+    ILI9341_Write_Data ( 0x00 );
+    
+    
+    /* Power Control 1 (C0h) */
+    ILI9341_Write_Cmd ( 0xC0 );   //Power control
+    ILI9341_Write_Data ( 0x21 );  //VRH[5:0]
+    
+    /* Power Control 2 (C1h) */
+    ILI9341_Write_Cmd ( 0xC1 );   //Power control
+    ILI9341_Write_Data ( 0x11 );  //SAP[2:0];BT[3:0]
+    
+    /* VCOM Control 1 (C5h) */
+    ILI9341_Write_Cmd ( 0xC5 );
+    ILI9341_Write_Data ( 0x2D );
+    ILI9341_Write_Data ( 0x33 );
+    
+    /*  VCOM Control 2 (C7h)  */
+//	ILI9341_Write_Cmd ( 0xC7 );
+//	ILI9341_Write_Data ( 0XC0 );
+    
+    /* memory access control set */
+    ILI9341_Write_Cmd ( 0x36 );   //Memory Access Control
+    ILI9341_Write_Data ( 0x00 );  /*竖屏  左上角到 (起点)到右下角 (终点)扫描方式*/
+    
+    ILI9341_Write_Cmd(0x3A);   
+    ILI9341_Write_Data(0x55); 
+    
+      /* Frame Rate Control (In Normal Mode/Full Colors) (B1h) */
+    ILI9341_Write_Cmd ( 0xB1 );
+    ILI9341_Write_Data ( 0x00 );
+    ILI9341_Write_Data ( 0x17 );
+    
+    /*  Display Function Control (B6h) */
+    ILI9341_Write_Cmd ( 0xB6 );
+    ILI9341_Write_Data ( 0x0A );
+    ILI9341_Write_Data ( 0xA2 );
+    
+    ILI9341_Write_Cmd(0xF6);    			
+    ILI9341_Write_Data(0x01); 
+    ILI9341_Write_Data(0x30); 
+    
+    /* Enable 3G (F2h) */
+    ILI9341_Write_Cmd ( 0xF2 );
+    ILI9341_Write_Data ( 0x00 );
+    
+    /* Gamma Set (26h) */
+    ILI9341_Write_Cmd ( 0x26 );
+    ILI9341_Write_Data ( 0x01 );
+    
+    /* Positive Gamma Correction */
+    ILI9341_Write_Cmd(0xe0); //Positive gamma
+    ILI9341_Write_Data(0xd0);         
+    ILI9341_Write_Data(0x00); 
+    ILI9341_Write_Data(0x02); 
+    ILI9341_Write_Data(0x07); 
+    ILI9341_Write_Data(0x0b); 
+    ILI9341_Write_Data(0x1a); 
+    ILI9341_Write_Data(0x31); 
+    ILI9341_Write_Data(0x54); 
+    ILI9341_Write_Data(0x40); 
+    ILI9341_Write_Data(0x29); 
+    ILI9341_Write_Data(0x12); 
+    ILI9341_Write_Data(0x12); 
+    ILI9341_Write_Data(0x12); 
+    ILI9341_Write_Data(0x17);
+
+    /* Negative Gamma Correction (E1h) */
+    ILI9341_Write_Cmd(0xe1); //Negative gamma
+    ILI9341_Write_Data(0xd0); 
+    ILI9341_Write_Data(0x00); 
+    ILI9341_Write_Data(0x02); 
+    ILI9341_Write_Data(0x07); 
+    ILI9341_Write_Data(0x05); 
+    ILI9341_Write_Data(0x25); 
+    ILI9341_Write_Data(0x2d); 
+    ILI9341_Write_Data(0x44); 
+    ILI9341_Write_Data(0x45); 
+    ILI9341_Write_Data(0x1c); 
+    ILI9341_Write_Data(0x18); 
+    ILI9341_Write_Data(0x16); 
+    ILI9341_Write_Data(0x1c); 
+    ILI9341_Write_Data(0x1d); 
+  
 	
-	/*  Power on sequence control (EDh) */
-	macDEBUG_DELAY ();
-	ILI9341_Write_Cmd ( 0xED );
-	ILI9341_Write_Data ( 0x64 );
-	ILI9341_Write_Data ( 0x03 );
-	ILI9341_Write_Data ( 0x12 );
-	ILI9341_Write_Data ( 0x81 );
+//	/* column address control set */
+//	ILI9341_Write_Cmd ( CMD_SetCoordinateX ); 
+//	ILI9341_Write_Data ( 0x00 );
+//	ILI9341_Write_Data ( 0x00 );
+//	ILI9341_Write_Data ( 0x00 );
+//	ILI9341_Write_Data ( 0xEF );
+//	
+//	/* page address control set */
+//	DEBUG_DELAY ();
+//	ILI9341_Write_Cmd ( CMD_SetCoordinateY ); 
+//	ILI9341_Write_Data ( 0x00 );
+//	ILI9341_Write_Data ( 0x00 );
+//	ILI9341_Write_Data ( 0x01 );
+//	ILI9341_Write_Data ( 0x3F );
 	
-	/*  Driver timing control A (E8h) */
-	macDEBUG_DELAY ();
-	ILI9341_Write_Cmd ( 0xE8 );
-	ILI9341_Write_Data ( 0x85 );
-	ILI9341_Write_Data ( 0x10 );
-	ILI9341_Write_Data ( 0x78 );
 	
-	/*  Power control A (CBh) */
-	macDEBUG_DELAY ();
-	ILI9341_Write_Cmd ( 0xCB );
-	ILI9341_Write_Data ( 0x39 );
-	ILI9341_Write_Data ( 0x2C );
-	ILI9341_Write_Data ( 0x00 );
-	ILI9341_Write_Data ( 0x34 );
-	ILI9341_Write_Data ( 0x02 );
+    /* Sleep Out (11h)  */
+    ILI9341_Write_Cmd ( 0x11 );	  //Exit Sleep
+    ILI9341_Delay ( 0xAFFf<<2 );
+    
+    /* Display ON (29h) */
+    ILI9341_Write_Cmd ( 0x29 );   //Display on
+    
+    ILI9341_Write_Cmd(0x2c);
+  }
+}
+
+/**
+ * @brief  读取LCD驱动芯片ID函数，可用于测试底层的读写函数
+ * @param  无
+ * @retval 正常时返回值为LCD驱动芯片ID: LCDID_ILI9341/LCDID_ST7789V
+ *         否则返回: LCDID_UNKNOWN
+ */
+uint16_t ILI9341_ReadID(void)
+{
+	uint16_t id = 0;
 	
-	/* Pump ratio control (F7h) */
-	macDEBUG_DELAY ();
-	ILI9341_Write_Cmd ( 0xF7 );
-	ILI9341_Write_Data ( 0x20 );
+	ILI9341_Write_Cmd(0x04);
+	ILI9341_Read_Data();
+	ILI9341_Read_Data();
+	id = ILI9341_Read_Data();
+	id <<= 8;
+	id |= ILI9341_Read_Data();
 	
-	/* Driver timing control B */
-	macDEBUG_DELAY ();
-	ILI9341_Write_Cmd ( 0xEA );
-	ILI9341_Write_Data ( 0x00 );
-	ILI9341_Write_Data ( 0x00 );
-	
-	/* Frame Rate Control (In Normal Mode/Full Colors) (B1h) */
-	macDEBUG_DELAY ();
-	ILI9341_Write_Cmd ( 0xB1 );
-	ILI9341_Write_Data ( 0x00 );
-	ILI9341_Write_Data ( 0x1B );
-	
-	/*  Display Function Control (B6h) */
-	macDEBUG_DELAY ();
-	ILI9341_Write_Cmd ( 0xB6 );
-	ILI9341_Write_Data ( 0x0A );
-	ILI9341_Write_Data ( 0xA2 );
-	
-	/* Power Control 1 (C0h) */
-	macDEBUG_DELAY ();
-	ILI9341_Write_Cmd ( 0xC0 );
-	ILI9341_Write_Data ( 0x35 );
-	
-	/* Power Control 2 (C1h) */
-	macDEBUG_DELAY ();
-	ILI9341_Write_Cmd ( 0xC1 );
-	ILI9341_Write_Data ( 0x11 );
-	
-	/* VCOM Control 1 (C5h) */
-	ILI9341_Write_Cmd ( 0xC5 );
-	ILI9341_Write_Data ( 0x45 );
-	ILI9341_Write_Data ( 0x45 );
-	
-	/*  VCOM Control 2 (C7h)  */
-	ILI9341_Write_Cmd ( 0xC7 );
-	ILI9341_Write_Data ( 0xA2 );
-	
-	/* Enable 3G (F2h) */
-	ILI9341_Write_Cmd ( 0xF2 );
-	ILI9341_Write_Data ( 0x00 );
-	
-	/* Gamma Set (26h) */
-	ILI9341_Write_Cmd ( 0x26 );
-	ILI9341_Write_Data ( 0x01 );
-	macDEBUG_DELAY ();
-	
-	/* Positive Gamma Correction */
-	ILI9341_Write_Cmd ( 0xE0 ); //Set Gamma
-	ILI9341_Write_Data ( 0x0F );
-	ILI9341_Write_Data ( 0x26 );
-	ILI9341_Write_Data ( 0x24 );
-	ILI9341_Write_Data ( 0x0B );
-	ILI9341_Write_Data ( 0x0E );
-	ILI9341_Write_Data ( 0x09 );
-	ILI9341_Write_Data ( 0x54 );
-	ILI9341_Write_Data ( 0xA8 );
-	ILI9341_Write_Data ( 0x46 );
-	ILI9341_Write_Data ( 0x0C );
-	ILI9341_Write_Data ( 0x17 );
-	ILI9341_Write_Data ( 0x09 );
-	ILI9341_Write_Data ( 0x0F );
-	ILI9341_Write_Data ( 0x07 );
-	ILI9341_Write_Data ( 0x00 );
-	
-	/* Negative Gamma Correction (E1h) */
-	ILI9341_Write_Cmd ( 0XE1 ); //Set Gamma
-	ILI9341_Write_Data ( 0x00 );
-	ILI9341_Write_Data ( 0x19 );
-	ILI9341_Write_Data ( 0x1B );
-	ILI9341_Write_Data ( 0x04 );
-	ILI9341_Write_Data ( 0x10 );
-	ILI9341_Write_Data ( 0x07 );
-	ILI9341_Write_Data ( 0x2A );
-	ILI9341_Write_Data ( 0x47 );
-	ILI9341_Write_Data ( 0x39 );
-	ILI9341_Write_Data ( 0x03 );
-	ILI9341_Write_Data ( 0x06 );
-	ILI9341_Write_Data ( 0x06 );
-	ILI9341_Write_Data ( 0x30 );
-	ILI9341_Write_Data ( 0x38 );
-	ILI9341_Write_Data ( 0x0F );
-	
-	/* memory access control set */
-	macDEBUG_DELAY ();
-	ILI9341_Write_Cmd ( 0x36 ); 	
-	ILI9341_Write_Data ( 0xC8 );    /*竖屏  左上角到 (起点)到右下角 (终点)扫描方式*/
-	macDEBUG_DELAY ();
-	
-	/* column address control set */
-	ILI9341_Write_Cmd ( macCMD_SetCoordinateX ); 
-	ILI9341_Write_Data ( 0x00 );
-	ILI9341_Write_Data ( 0x00 );
-	ILI9341_Write_Data ( 0x00 );
-	ILI9341_Write_Data ( 0xEF );
-	
-	/* page address control set */
-	macDEBUG_DELAY ();
-	ILI9341_Write_Cmd ( macCMD_SetCoordinateY ); 
-	ILI9341_Write_Data ( 0x00 );
-	ILI9341_Write_Data ( 0x00 );
-	ILI9341_Write_Data ( 0x01 );
-	ILI9341_Write_Data ( 0x3F );
-	
-	/*  Pixel Format Set (3Ah)  */
-	macDEBUG_DELAY ();
-	ILI9341_Write_Cmd ( 0x3a ); 
-	ILI9341_Write_Data ( 0x55 );
-	
-	/* Sleep Out (11h)  */
-	ILI9341_Write_Cmd ( 0x11 );	
-	ILI9341_Delay ( 0xAFFf<<2 );
-	macDEBUG_DELAY ();
-	
-	/* Display ON (29h) */
-	ILI9341_Write_Cmd ( 0x29 ); 
+  if(id == LCDID_ST7789V)
+  {
+    return id;
+  }
+  else
+  {
+    ILI9341_Write_Cmd(0xD3);
+    ILI9341_Read_Data();
+    ILI9341_Read_Data();
+    id = ILI9341_Read_Data();
+    id <<= 8;
+    id |= ILI9341_Read_Data();
+    if(id == LCDID_ILI9341)
+    {
+      return id;
+    }
+  }
+  
+	return LCDID_UNKNOWN;
 }
 
 /**

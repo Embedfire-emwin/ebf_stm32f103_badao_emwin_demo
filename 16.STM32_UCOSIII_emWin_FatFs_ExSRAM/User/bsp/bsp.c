@@ -364,6 +364,7 @@ void BSP_Init(void)
 	XPT2046_Init();
 	
 	/* 初始化GUI */
+  ILI9341_Init(); /* 提前初始化LCD驱动，在GUI_Init调用LCD_X_Config之前确认LCD驱动芯片ID: lcdid */
 	GUI_Init();
 }
 
